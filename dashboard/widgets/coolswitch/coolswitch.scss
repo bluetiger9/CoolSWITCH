@@ -1,0 +1,39 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #ec663c;
+
+$title-color:       rgba(255, 255, 255, 0.7);
+$moreinfo-color:    rgba(255, 255, 255, 0.7);
+
+// ----------------------------------------------------------------------------
+// Widget-text styles
+// ----------------------------------------------------------------------------
+.widget-coolswitch {
+
+  background-color: $background-color;
+
+  .title {
+    color: $title-color;
+    font-weight: bold;
+    font-size: 2em;
+    margin-bottom: 0px;
+  }
+
+  .more-info {
+    color: $moreinfo-color;
+  }
+
+  .updated-at {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .cool-id {
+    font-size: 18px;
+  }
+
+  &.large h3 {
+    font-size: 65px;
+  }
+
+}

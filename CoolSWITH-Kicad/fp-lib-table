@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name CoolMosFootprintLib)(type KiCad)(uri ${KIPRJMOD}/CoolMosFootprintLib.pretty)(options "")(descr ""))
+)

@@ -1,0 +1,55 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP 1EDI20I12MFXUMA1
+D Gate Drivers DRIVER IC
+F http://www.infineon.com/dgdl/Infineon-1EDIXXI12MF-DS-v02_00-EN.pdf?fileId=5546d46145f1f3a401462944e0190fd7
+$ENDCMP
+#
+$CMP 1EDI20I12MFXUMA1_0
+D Gate Drivers DRIVER IC
+F http://www.infineon.com/dgdl/Infineon-1EDIXXI12MF-DS-v02_00-EN.pdf?fileId=5546d46145f1f3a401462944e0190fd7
+$ENDCMP
+#
+$CMP CD-MBL210S
+D BOURNS - CD-MBL210S - DIODE, BRIDGE RECT, 1-PH, 1KV, SMD
+F http://www.bourns.com/docs/Product-Datasheets/cd-mbl2xxsl.pdf
+$ENDCMP
+#
+$CMP ESP-01v090
+D ESP8266 ESP-01 module, v090
+K MODULE ESP8266 ESP-8266
+F http://l0l.org.uk/2014/12/esp8266-modules-hardware-guide-gotta-catch-em-all/
+$ENDCMP
+#
+$CMP IE1203S
+D DC/DC Converter Isolated 3.3V 1W
+F https://www.xppower.com/pdfs/SF_IE.pdf
+$ENDCMP
+#
+$CMP IPT60R028G7
+D 87A Id, 600V Vds, 28mOhm, N-channel MOSFET, CoolMOS G7, HSOF
+K N-Channel MOSFET
+F https://www.infineon.com/dgdl/Infineon-IPT60R028G7-DS-v02_00-EN.pdf?fileId=5546d46259d9a4bf015a13e82df70e30
+$ENDCMP
+#
+$CMP IRM-05-5
+D AC/DC Power Modules 5V 1A 5W 85-264Vin Encap PS
+F http://www.mouser.com/ds/2/260/IRM-05-SPEC-806200.pdf
+$ENDCMP
+#
+$CMP LNK3206D-TL
+D POWER INTEGRATIONS - LNK3206D-TL - AC/DC CONV, BUCK-BOOST/FLYBACK, SOIC-8
+F http://www.mouser.com/ds/2/328/LinkSwitch-TN2_family_datasheet-1036065.pdf
+$ENDCMP
+#
+$CMP TLI4970D050T4XUMA1
+D Coreless Magnetic Current Sensor 50A
+F https://www.infineon.com/dgdl/Infineon-TLI4970-D050T4-DS-v01_01-EN.pdf?fileId=
+$ENDCMP
+#
+$CMP X22205CAAK
+D PCB Slide Switch DP-CO 16 A @ 250 V ac Slide
+F https://componentsearchengine.com/Datasheets/2/X22205CAAK.pdf
+$ENDCMP
+#
+#End Doc Library
