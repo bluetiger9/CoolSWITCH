@@ -3,7 +3,7 @@
 
 #include "CoolSwitchCurrentSensor.hpp"
 
-enum State { ON, OFF, OVER_CURRENT } ;
+enum State { OFF, ON, SOFT_START, SOFT_STOP, OVER_CURRENT } ;
 
 class PWMPin {
 public:
@@ -14,7 +14,12 @@ public:
   };
 
   void setSpeed(const float speedPercent) {
-    this->speed = speedPercent * 1024;
+    uint16_t newSpeed = speedPercent * 1024;
+    if (newSpeed == this->speed) {
+      return;
+    }
+    
+    this->speed = newSpeed;
     if (this->on) {
       writeSpeed(this->speed);
     }
@@ -51,6 +56,7 @@ public:
   }
 
   void setSpeed(float speed) {
+    this->speed = speed;
     this->pwmPin.setSpeed(speed);
   }
 
@@ -58,8 +64,12 @@ public:
     this->currentLimit = currentLimit;
   }
 
+  void setSoftSwitchingDuration(uint32_t softSwitchingDuration) {
+    this->softSwitchingDuration = softSwitchingDuration;
+  }
+
   void enableSoftStartStop(bool enable) {
-    // TODO
+    this->softSwitchingEnabled = enable;
   }
 
   void begin() {
@@ -71,24 +81,73 @@ public:
 
     if (abs(this->currentSensor.getCurrentValue()) > currentLimit) {
       setState(State::OVER_CURRENT);
+      return;
+    }
+
+    if (state == ON && (millis() - lastHB) > hbOffTimout) {
+      setState(State::OFF);
+      return;
+    }
+
+    if (state == SOFT_START) {
+      if (millis() > softSwitchingStarted + softSwitchingDuration) {
+        setState(ON);
+        
+      } else {        
+        pwmPin.setSpeed(speed * ((millis() - softSwitchingStarted) / softSwitchingDuration));
+      }
+      
+    } else if (state == SOFT_STOP) {
+      if (millis() > softSwitchingStarted + softSwitchingDuration) {
+        setState(OFF);
+        
+      } else {        
+        pwmPin.setSpeed(speed * (1 - (millis() - softSwitchingStarted) / softSwitchingDuration));
+      }
     }
   }
   
-  void turnOn() {    
-    setState(ON);
+  void turnOn() { 
+    this->lastHB = millis();
+    if (this->state == OFF) {
+      if (this->softSwitchingEnabled) {
+        setState(SOFT_START);
+        
+      } else {
+        setState(ON);
+      }
+    }    
   }
   
-  void turnOff() {    
-    setState(OFF);
+  void turnOff() {
+    if (this->state != OFF) {
+      if (this->softSwitchingEnabled) {
+        setState(SOFT_STOP);
+        
+      } else {
+        setState(OFF);
+      }
+    }
   }
 
   void setState(State state) {
     this->state = state;
     switch (state) {
     case ON:
+      pwmPin.setSpeed(speed);
       pwmPin.turnOn();
       break;
 
+    case SOFT_START:
+      softSwitchingStarted == millis();
+      pwmPin.setSpeed(0);
+      pwmPin.turnOn();
+      break;
+
+    case SOFT_STOP:
+      softSwitchingStarted == millis();      
+      break;
+    
     case OFF:
     case OVER_CURRENT:
       pwmPin.turnOff();
@@ -103,9 +162,19 @@ public:
   State state;
   PWMPin pwmPin;
   CoolSwitchCurrentSensor currentSensor;
+
+  String deviceName;
   
 private:
   float currentLimit = 75.0;
+  float speed = 1.0;
+
+  bool softSwitchingEnabled = false;
+  uint64_t softSwitchingStarted;
+  uint32_t softSwitchingDuration = 5000; /* 5 sec */
+
+  uint64_t lastHB = -1;
+  uint32_t hbOffTimout = 60000; /* 60 sec */
 };
 
 #endif

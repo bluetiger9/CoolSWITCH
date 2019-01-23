@@ -28,11 +28,15 @@ public:
     // load settings
     this->wifiSSID = readString("WifiSSID.txt");
     this->wifiPassword = readString("WifiPassword.txt");
+    this->mqttServer = readString("MqttServer.txt");
+    this->mqttPort = readString("MqttPort.txt");
   }
 
   void save() {
     writeString("WifiSSID.txt", wifiSSID);
     writeString("WifiPassword.txt", wifiPassword);
+    writeString("MqttServer.txt", mqttServer);
+    writeString("MqttPort.txt", mqttPort);
   };
 
   void handle() {
@@ -41,6 +45,8 @@ public:
 
   String wifiSSID = "";
   String wifiPassword = "";
+  String mqttServer = "";
+  String mqttPort = "12948";
 
 private:
   String readString(const String filename) {

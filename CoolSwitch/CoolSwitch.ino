@@ -19,7 +19,7 @@ const uint8_t MOSFET_EN = 13;
 CoolSwitchConfig config;
 CoolSwitch coolSwitch(MOSFET_EN);
 CoolSwitchHTTP httpInterface(coolSwitch, config);
-CoolSwitchMQTT mqttInterface(coolSwitch);
+CoolSwitchMQTT mqttInterface(coolSwitch, config);
 
 char deviceId[25];
 
@@ -48,7 +48,9 @@ void setupWifi() {
       delay(5000);
       ESP.restart();
     }
-    Serial.println("Wifi connected.");
+    Serial.println("Wifi connected.");  
+    Serial.print("  IP address: ");
+    Serial.println(WiFi.localIP());
     
   } else {
     Serial.println("Setting up Wifi Soft AP:");
@@ -59,17 +61,7 @@ void setupWifi() {
   }  
 }
 
-void setup() {
-  Serial.begin(115200);
-  Serial.println("Booting");
-  pinMode(LED, OUTPUT);  
-
-  setupDeviceId();
-  setupConfig();
-  setupWifi();
-
-  httpInterface.begin();
-  
+void setupOTA() {
   // Port defaults to 8266
   // ArduinoOTA.setPort(8266);
 
@@ -103,17 +95,28 @@ void setup() {
   });
   
   ArduinoOTA.begin();
-  
-  Serial.println("Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+}
 
-  Serial.println("HTTP server started");
+void setup() {
+  Serial.begin(115200);
+  Serial.println("Booting");
+  pinMode(LED, OUTPUT);  
+
+  setupDeviceId();
+  setupConfig();
+  setupWifi();
+  setupOTA();
+
+  coolSwitch.deviceName = deviceId;
+
+  httpInterface.begin();
+  mqttInterface.begin();
 
   delay(2000);
+
   coolSwitch.begin();
   
-  Serial.println("OK");
+  Serial.println("CoolSWITCH Started.");
 }
 
 

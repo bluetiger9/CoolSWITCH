@@ -14,7 +14,7 @@ public:
       
     this->server.on("/", [this]() {      
       digitalWrite(LED, 1);
-      this->server.send(200, "text/plain", "hello from esp8266!");
+      this->server.send(200, "text/plain", "Hello from " + this->coolSwitch.deviceName);
       digitalWrite(LED, 0);  
     });
   
@@ -36,6 +36,12 @@ public:
         } else if (this->server.argName(i) == "wifiPassword") {
           this->config.wifiPassword = value;
           
+        } else if (this->server.argName(i) == "mqttServer") {
+          this->config.mqttServer = value;
+
+        } else if (this->server.argName(i) == "mqttPort") {
+          this->config.mqttPort = value;
+        
         } else if (this->server.argName(i) == "speed") {
           this->coolSwitch.setSpeed(value.toFloat());
           
@@ -44,8 +50,10 @@ public:
           
         } else if (this->server.argName(i) == "softStartStop") {
           this->coolSwitch.enableSoftStartStop(value == "true" ? true : false);
-        }
-        
+          
+        } else if (this->server.argName(i) == "softSwitchDuration") {
+          this->coolSwitch.setSoftSwitchingDuration(value.toInt());
+        }       
       } 
     
       if (message.length() == 0) {
@@ -92,6 +100,7 @@ public:
 
   void begin() {
     server.begin();
+    Serial.println("HTTP server started");
   }
   
   void handle() {
