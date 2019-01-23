@@ -5,4 +5,6 @@
 **Project structure**
 - CoolSWITH-Kicad - Kicad project: schematics + PCB
 - CoolSwitch - Arduino project
-- dashboard - Smashing demo dashboard
+- Smashing-Dashboard - Smashing demo dashboard
+- MQTT-Grafana - Grafana demo dashboard
+ 
