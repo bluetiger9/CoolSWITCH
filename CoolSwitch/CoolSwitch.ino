@@ -68,8 +68,12 @@ void setupOTA() {
   // Hostname defaults to esp8266-[ChipID]
   ArduinoOTA.setHostname(deviceId);
 
-  // No authentication by default
-  // ArduinoOTA.setPassword((const char *)"123");
+  // set OTA password
+  if (config.httpSecret != "") {
+    char otaPassword[128];
+    config.httpSecret.toCharArray(otaPassword, 32);
+    ArduinoOTA.setPassword(otaPassword);
+  }
 
   ArduinoOTA.onStart([]() {
     coolSwitch.turnOff();

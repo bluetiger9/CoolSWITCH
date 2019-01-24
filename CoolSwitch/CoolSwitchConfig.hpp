@@ -30,6 +30,7 @@ public:
     this->wifiPassword = readString("WifiPassword.txt");
     this->mqttServer = readString("MqttServer.txt");
     this->mqttPort = readString("MqttPort.txt");
+    this->httpSecret = readString("HttpSecret.txt");
   }
 
   void save() {
@@ -37,6 +38,7 @@ public:
     writeString("WifiPassword.txt", wifiPassword);
     writeString("MqttServer.txt", mqttServer);
     writeString("MqttPort.txt", mqttPort);
+    writeString("HttpSecret.txt", httpSecret);
   };
 
   void handle() {
@@ -47,6 +49,7 @@ public:
   String wifiPassword = "";
   String mqttServer = "";
   String mqttPort = "12948";
+  String httpSecret = "";
 
 private:
   String readString(const String filename) {
