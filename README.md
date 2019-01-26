@@ -9,3 +9,5 @@
 - MQTT-Grafana - Grafana demo dashboard
 - coolSwitchClient.py - secure HTTP client
  
+**License**: 
+CC BY-NC-SA
