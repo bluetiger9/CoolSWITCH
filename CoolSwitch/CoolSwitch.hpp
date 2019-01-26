@@ -18,7 +18,8 @@ public:
     if (newSpeed == this->speed) {
       return;
     }
-    
+    Serial.print("pwm speed: ");
+    Serial.println(newSpeed);
     this->speed = newSpeed;
     if (this->on) {
       writeSpeed(this->speed);
@@ -56,19 +57,26 @@ public:
   }
 
   void setSpeed(float speed) {
+    Serial.print("Speed: ");
+    Serial.println(speed);
     this->speed = speed;
     this->pwmPin.setSpeed(speed);
   }
 
   void setCurrentLimit(float currentLimit) {
+    Serial.print("Current limit: ");
+    Serial.println(currentLimit);
     this->currentLimit = currentLimit;
   }
 
   void setSoftSwitchingDuration(uint32_t softSwitchingDuration) {
+    Serial.print("Soft switching duration: ");
+    Serial.println(softSwitchingDuration);
     this->softSwitchingDuration = softSwitchingDuration;
   }
 
   void enableSoftStartStop(bool enable) {
+    Serial.println(enable ? "Soft switching enabled" : "Soft switching disabled");
     this->softSwitchingEnabled = enable;
   }
 
@@ -94,7 +102,7 @@ public:
         setState(ON);
         
       } else {        
-        pwmPin.setSpeed(speed * ((millis() - softSwitchingStarted) / softSwitchingDuration));
+        pwmPin.setSpeed(speed * (((float) millis() - softSwitchingStarted) / softSwitchingDuration));
       }
       
     } else if (state == SOFT_STOP) {
@@ -102,7 +110,7 @@ public:
         setState(OFF);
         
       } else {        
-        pwmPin.setSpeed(speed * (1 - (millis() - softSwitchingStarted) / softSwitchingDuration));
+        pwmPin.setSpeed(speed * (1.0 - ((float) millis() - softSwitchingStarted) / softSwitchingDuration));
       }
     }
   }
@@ -131,6 +139,8 @@ public:
   }
 
   void setState(State state) {
+    Serial.print("Set state: ");
+    Serial.println(state);
     this->state = state;
     switch (state) {
     case ON:
@@ -139,13 +149,13 @@ public:
       break;
 
     case SOFT_START:
-      softSwitchingStarted == millis();
+      softSwitchingStarted = millis();
       pwmPin.setSpeed(0);
       pwmPin.turnOn();
       break;
 
     case SOFT_STOP:
-      softSwitchingStarted == millis();      
+      softSwitchingStarted = millis();
       break;
     
     case OFF:
