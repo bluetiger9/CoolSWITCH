@@ -7,4 +7,5 @@
 - CoolSwitch - Arduino project
 - Smashing-Dashboard - Smashing demo dashboard
 - MQTT-Grafana - Grafana demo dashboard
+- coolSwitchClient.py - secure HTTP client
  
