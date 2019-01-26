@@ -10,4 +10,5 @@
 - coolSwitchClient.py - secure HTTP client
  
 **License**: 
-CC BY-NC-SA
+- code: MIT
+- kicad design: CC BY-NC-SA
