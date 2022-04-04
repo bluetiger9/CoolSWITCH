@@ -34,7 +34,7 @@ GEM
     mustermann (1.0.3)
     naught (1.1.0)
     public_suffix (3.0.3)
-    rack (2.0.6)
+    rack (2.0.9)
     rack-protection (2.0.5)
       rack
     rufus-scheduler (3.4.2)
